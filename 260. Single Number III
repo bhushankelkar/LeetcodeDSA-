@@ -1,0 +1,39 @@
+/*
+Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.
+You must write an algorithm that runs in linear runtime complexity and uses only constant extra space.
+*/
+
+class Solution {
+public:
+    bool checkBit(int num,int i){
+        if((num>>i)&1)
+            return true;
+        else
+            return false;
+    }
+    vector<int> singleNumber(vector<int>& nums) {
+        int n = nums.size();
+        int x = 0;
+        for(int i=0;i<n;i++){
+            x = x^nums[i];
+        }
+
+        int bitIndex = 0;
+        for(int i=0;i<=31;i++){
+            if(checkBit(x,i)){
+                bitIndex = i;
+                break;
+            }
+        }
+
+        int s0 = 0;
+        int s1 = 0;
+        for(int i=0;i<n;i++){
+            if(checkBit(nums[i],bitIndex))
+                s1 = s1^nums[i];
+            else
+                s0 = s0^nums[i];
+        }
+        return {s0,s1};
+    }
+};
